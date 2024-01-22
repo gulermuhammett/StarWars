@@ -3,27 +3,27 @@
 }
 @model List<CharacterDTO>
 
-<div class="container-fluid">
+<div class="container-fluid" style="margin:3px;">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">People Cards</h1>
-                    </div>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">People Cards</h1>
+    </div>
     <div class="row">
-                    @foreach(var item in Model){
-                        <div class="row">
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="card" style="width: 18rem;">
-                                <img src="..." class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.Name</h5>
-                                    <p class="card-text">Home World: @item.HomeWorld Planet</p>
-                                    <a href="#" class="btn btn-primary">Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
+      @foreach(var item in Model){
+            <div class="row;" style="margin:10px">
+    
+              <!-- Earnings (Monthly) Card Example -->
+                <div class="card" style="width:260px;">
+                    <img src="~/img/@item.Img" class="card-img-top" alt="Chararacter" style="height:200px;">
+                  <div class="card-body">
+                      <h5 class="card-title">@item.Name</h5>
+                      <p class="card-text">Home World: @item.HomeWorld Planet</p>
+                      <a href="#" class="btn btn-primary">Details</a>
+                  </div>
+              </div>
+          </div>
+      }
+    
     </div>
 </div>                
