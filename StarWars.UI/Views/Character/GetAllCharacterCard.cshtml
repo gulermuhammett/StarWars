@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Character Card Page";
+}
+@model List<CharacterDTO>
+
+<div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">People Cards</h1>
+                    </div>
+    <div class="row">
+                    @foreach(var item in Model){
+                        <div class="row">
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                    <p class="card-text">Home World: @item.HomeWorld Planet</p>
+                                    <a href="#" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+    </div>
+</div>                

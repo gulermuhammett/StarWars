@@ -11,9 +11,9 @@ namespace StarWars.API.Controllers
     {
         private readonly GenericService<Vehicles> genericService;
 
-        public VehiclesController(GenericService<Vehicles> characterService)
+        public VehiclesController(GenericService<Vehicles> vehiclesService)
         {
-            genericService = characterService;
+            genericService = vehiclesService;
         }
 
         [HttpGet]
