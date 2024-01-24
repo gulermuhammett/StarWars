@@ -27,11 +27,11 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">StarWars Components:</h6>
                 <a asp-controller="Character" asp-action="GetAllCharacterCard" class="collapse-item">Characters</a>
-                <a class="collapse-item" href="cards.html">Planets</a>
+                <a asp-controller="Planets" asp-action="GetAllPlanetCard" class="collapse-item" >Planets</a>
                 <a class="collapse-item" href="cards.html">Species</a>
                 <a class="collapse-item" href="cards.html">Starships</a>
                 <a class="collapse-item" href="cards.html">Vehicles</a>
-                <a class="collapse-item" href="cards.html">Films</a>
+                <a asp-controller="Films" asp-action="GetAllFilmCard" class="collapse-item" >Films</a>
             </div>
         </div>
     </li>
