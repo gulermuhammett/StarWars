@@ -28,9 +28,9 @@
                 <h6 class="collapse-header">StarWars Components:</h6>
                 <a asp-controller="Character" asp-action="GetAllCharacterCard" class="collapse-item">Characters</a>
                 <a asp-controller="Planets" asp-action="GetAllPlanetCard" class="collapse-item" >Planets</a>
-                <a class="collapse-item" href="cards.html">Species</a>
-                <a class="collapse-item" href="cards.html">Starships</a>
-                <a class="collapse-item" href="cards.html">Vehicles</a>
+                <a asp-controller="Species" asp-action="GetAllSpeciesCard" class="collapse-item" >Species</a>
+                <a asp-controller="Starship" asp-action="GetAllStarshipCard" class="collapse-item">Starships</a>
+                <a asp-controller="Vehicles" asp-action="GetAllVehicleCard" class="collapse-item" >Vehicles</a>
                 <a asp-controller="Films" asp-action="GetAllFilmCard" class="collapse-item" >Films</a>
             </div>
         </div>

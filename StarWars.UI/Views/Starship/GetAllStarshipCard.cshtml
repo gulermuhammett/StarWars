@@ -1,13 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Film Card Page";
+    ViewData["Title"] = "Starship Card Page";
 }
-@model List<FilmDTO>
+@model List<StarshipDTO>
 
 <div class="container-fluid" style="margin:3px;">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Film Cards</h1>
+        <h1 class="h3 mb-0 text-gray-800">Starship Cards</h1>
     </div>
     <div class="row">
         @foreach (var item in Model)
@@ -15,13 +15,15 @@
             <div class="row;" style="margin:10px">
 
                 <!-- Earnings (Monthly) Card Example -->
-                <div class="card" style="width:260px; height:450px">
+                <div class="card" style="width:260px; height:650px">
                     <img src="~/img/@item.Img" class="card-img-top" alt="Chararacter" style="height:200px;">
                     <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">Director: @item.Director</p>
-                        <p class="card-text">Producer: @item.Producer</p>
-                        <p class="card-text">Producer: @item.Release_date</p>
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">Model: @item.Model</p>
+                        <p class="card-text">Manufacturer: @item.Manufacturer</p>
+                        <p class="card-text">Cost In Credits: @item.Cost_in_credits</p>
+                        <p class="card-text">Passengers: @item.Passengers</p>
+                        <p class="card-text">Cargo Capacity: @item.Cargo_capacity</p>
                         <a href="#" class="btn btn-primary">Details</a>
                     </div>
                 </div>

@@ -54,24 +54,25 @@ namespace StarWars.UI.Controllers
                 
                 foreach (var person in people)
                 {
-                    string[] segments = person.Homeworld.Split('/');
-                    using (var answ = await httpClient.GetAsync($"{baseURL}/api/Planets/GetByPlanetId?id={segments[segments.Length - 2]}"))
+                    if (person.Homeworld!=null)
                     {
-                        string apiResult = await answ.Content.ReadAsStringAsync();
-                        planet = JsonConvert.DeserializeObject<Planets>(apiResult);
-
-                        // Dosya ismiyle eşleşen karakter varsa, characterDTOs'yu oluştur
-                        string matchingFileName = files.FirstOrDefault(item => (person.Name + ".jpg").Equals(item, StringComparison.OrdinalIgnoreCase));
-                        if (matchingFileName != null)
+                        string[] segments = person.Homeworld.Split('/');
+                        using (var answ = await httpClient.GetAsync($"{baseURL}/api/Planets/GetByPlanetId?id={segments[segments.Length - 2]}"))
                         {
-                            characterDTOs.Add(new CharacterDTO
-                            {
-                                Name = person.Name,
-                                HomeWorld = planet.Name == null ? "Unknown" : planet.Name,
-                                Img = matchingFileName
-                            });
+                            string apiResult = await answ.Content.ReadAsStringAsync();
+                            planet = JsonConvert.DeserializeObject<Planets>(apiResult);
                         }
                     }
+                    
+                    // Dosya ismiyle eşleşen karakter varsa, characterDTOs'yu oluştur
+                    string matchingFileName = files.FirstOrDefault(item => (person.Name + ".jpg").Equals(item, StringComparison.OrdinalIgnoreCase));
+                   
+                        characterDTOs.Add(new CharacterDTO
+                        {
+                            Name = person.Name,
+                            HomeWorld = planet.Name == null ? "Unknown" : planet.Name,
+                            Img = matchingFileName == null ? "StarWars.jpg" : matchingFileName
+                        });
                 }
             }
 

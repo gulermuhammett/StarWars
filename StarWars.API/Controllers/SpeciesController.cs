@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using StarWars.API.Entities;
 using StarWars.API.Services;
+using System.Xml.Linq;
 
 namespace StarWars.API.Controllers
 {
@@ -19,13 +20,17 @@ namespace StarWars.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult> GetSpecies()
+        public async Task<ActionResult> GetAllSpecies()
         {
             try
             {
                 var result = await genericService.GetAll();
                 var data = JsonConvert.DeserializeObject<Resultes<Species>>(result);
-                return Ok(data);
+                // Liste boşsa NotFound döndürecek.
+                if (result.Any()) return Ok(data);
+
+                else return NotFound($"Character is not found.");
+                
             }
             catch (Exception ex)
             {
@@ -40,14 +45,10 @@ namespace StarWars.API.Controllers
             try
             {
                 var result = await genericService.GetDefault(x => x.Name.ToLower().Contains(name.ToLower()));
-                if (result.Any()) // Liste boşsa NotFound döndürecek.
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound($"Character with name {name} not found.");
-                }
+                // Liste boşsa NotFound döndürecek.
+                if (result.Any()) return Ok(result);
+
+                else return NotFound($"Character with name {name} not found.");
 
             }
             catch (Exception ex)

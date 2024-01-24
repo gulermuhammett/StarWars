@@ -69,6 +69,44 @@ namespace StarWars.API.Services
             }
         }
 
+        public async Task<List<T>> GetBySearch(string searchTerm)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonString = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<Resultes<T>>(jsonString);
+
+                // LINQ sorgusu ile arama kelimesini içeren öğeleri filtrelemesini yapacak
+                var filteredResults = data.Results.Where(item => IsStringPropertyContains(item, searchTerm)).ToList();
+
+                return filteredResults;
+            }
+            else
+            {
+                // Hata durumunda bir hata mesajı içeren liste döndürecek.
+                return new List<T> { (T)(object)response.StatusCode };
+            }
+        }
+
+        public bool IsStringPropertyContains(T item, string searchTerm)
+        {
+            // T tipindeki nesnenin içindeki tüm string özellikleri kontrol etme
+            foreach (var property in typeof(T).GetProperties())
+            {
+                if (property.PropertyType == typeof(string))
+                {
+                    string value = (string)property.GetValue(item);
+                    if (!string.IsNullOrEmpty(value) && value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
     }
+   
 }

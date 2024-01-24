@@ -18,7 +18,7 @@ namespace StarWars.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult> GetStarships()
+        public async Task<ActionResult> GetAllStarships()
         {
             try
             {
