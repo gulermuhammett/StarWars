@@ -71,5 +71,20 @@ namespace StarWars.API.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult> GetBySearchFilms(string search)
+        {
+            try
+            {
+                var result = await genericService.GetBySearch(search);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
     }
 }

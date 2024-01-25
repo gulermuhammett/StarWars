@@ -34,6 +34,7 @@ namespace StarWars.UI.Controllers
             return View(films);
         }
 
+
         public async Task<IActionResult> GetAllFilmCardAsync()
         {
             List<Films> films = new List<Films>();
@@ -58,6 +59,60 @@ namespace StarWars.UI.Controllers
                 {
                     // Dosya ismiyle eşleşen karakter varsa, filmDTOs'yu oluştur.
                     //filmDTO'lara Film sınıfından gerekli özellikleri ve Img adını ata (AUTOMapper kullanılabilir!!!)
+                    string matchingFileName = files.FirstOrDefault(item => (film.Title + ".jpg").Equals(item, StringComparison.OrdinalIgnoreCase));
+
+                    filmDTOs.Add(new FilmDTO
+                    {
+                        Title = film.Title,
+                        Opening_crawl = film.Opening_crawl,
+                        Director = film.Director,
+                        Producer = film.Producer,
+                        Release_date = film.Release_date,
+                        Img = matchingFileName == null ? "StarWars.jpg" : matchingFileName
+                    });
+                }
+            }
+
+            return View(filmDTOs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAllFilmCardAsync(string search)
+        {
+            List<Films> films = new List<Films>();
+            List<FilmDTO> filmDTOs = new List<FilmDTO>();
+
+            // wwwroot/img klasöründeki dosya isimlerini almak için kullanıyoruz
+            string path = Path.Combine("wwwroot", "img");
+            string[] files = Directory.GetFiles(path).Select(Path.GetFileName).ToArray();
+
+            using (var httpClient = new HttpClient())
+            {
+                if (search == null || search == "")
+                {
+                    //API den tüm karakterleri almak için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz
+                    using (var answ = await httpClient.GetAsync($"{baseURL}/api/Films/GetAllFilms"))
+                    {
+                        string apiResult = await answ.Content.ReadAsStringAsync();
+                        films = JsonConvert.DeserializeObject<Resultes<Films>>(apiResult).Results;
+                    }
+                }
+                else
+                {
+                    //API den tüm karakterleri almak için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz
+                    using (var answ = await httpClient.GetAsync($"{baseURL}/api/Films/GetBySearchFilms?search={search}"))
+                    {
+                        string apiResult = await answ.Content.ReadAsStringAsync();
+                        films = JsonConvert.DeserializeObject<List<Films>>(apiResult);
+                    }
+                }
+
+                //API den gelen tüm karakterlere ait gezegenler için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz. 
+
+                foreach (var film in films)
+                {
+
+                    // Dosya ismiyle eşleşen karakter varsa, characterDTOs'yu oluşturacak
                     string matchingFileName = files.FirstOrDefault(item => (film.Title + ".jpg").Equals(item, StringComparison.OrdinalIgnoreCase));
 
                     filmDTOs.Add(new FilmDTO

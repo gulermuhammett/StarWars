@@ -72,5 +72,60 @@ namespace StarWars.UI.Controllers
 
             return View(planetDTOs);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllPlanetCardAsync(string search)
+        {
+            List<Planets> planets = new List<Planets>();
+            List<PlanetDTO> planetDTOs = new List<PlanetDTO>();
+
+            // wwwroot/img klasöründeki dosya isimlerini almak için kullanıyoruz
+            string path = Path.Combine("wwwroot", "img");
+            string[] files = Directory.GetFiles(path).Select(Path.GetFileName).ToArray();
+
+            using (var httpClient = new HttpClient())
+            {
+                if (search == null || search == "")
+                {
+                    //API den tüm karakterleri almak için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz
+                    using (var answ = await httpClient.GetAsync($"{baseURL}/api/Films/GetAllFilms"))
+                    {
+                        string apiResult = await answ.Content.ReadAsStringAsync();
+                        planets = JsonConvert.DeserializeObject<Resultes<Planets>>(apiResult).Results;
+                    }
+                }
+                else
+                {
+                    //API den tüm karakterleri almak için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz
+                    using (var answ = await httpClient.GetAsync($"{baseURL}/api/Films/GetBySearchFilms?search={search}"))
+                    {
+                        string apiResult = await answ.Content.ReadAsStringAsync();
+                        planets = JsonConvert.DeserializeObject<List<Planets>>(apiResult);
+                    }
+                }
+
+                //API den gelen tüm karakterlere ait gezegenler için atılan sorgu ve json verisinin obje listesine dönüşümünü yapıyoruz. 
+
+                foreach (var planet in planets)
+                {
+
+                    // Dosya ismiyle eşleşen karakter varsa, characterDTOs'yu oluşturacak
+                    string matchingFileName = files.FirstOrDefault(item => (planet.Name + ".jpg").Equals(item, StringComparison.OrdinalIgnoreCase));
+
+                    planetDTOs.Add(new PlanetDTO
+                    {
+                        Name = planet.Name,
+                        Diameter = planet.Diameter,
+                        Climate = planet.Climate,
+                        Gravity = planet.Gravity,
+                        Terrain = planet.Terrain,
+                        Surface_water = planet.Surface_water,
+                        Population = planet.Population,
+                        Img = matchingFileName == null ? "StarWars.jpg" : matchingFileName
+                    });
+                }
+            }
+
+            return View(planetDTOs);
+        }
     }
 }

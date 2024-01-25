@@ -8,6 +8,14 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Character Cards</h1>
+        <form asp-controller="Character" asp-action="GetAllCharacterCard" method="post" class="form-inline my-2 my-lg-0">
+            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <!-- Burada model listesini input alanı olarak ekliyoruz -->
+            <input name="models" type="hidden" value="@Json.Serialize(Model)">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+
     </div>
     <div class="row">
       @foreach(var item in Model){
@@ -18,8 +26,11 @@
                     <img src="~/img/@item.Img" class="card-img-top" alt="Chararacter" style="height:200px;">
                   <div class="card-body">
                       <h5 class="card-title">@item.Name</h5>
-                      <p class="card-text">Home World: @item.HomeWorld </p>
-                      <a href="#" class="btn btn-primary">Details</a>
+                      <p class="card-text">Skin Color: @item.Skin_color </p>
+                        <p class="card-text">Eye Color: @item.Eye_color </p>
+                        <p class="card-text">Eye Color: @item.Eye_color </p>
+                        <p class="card-text">Birth Year: @item.Birth_year </p>
+                        <p class="card-text">Gender: @item.Gender </p>
                   </div>
               </div>
           </div>
